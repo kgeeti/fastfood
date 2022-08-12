@@ -1,0 +1,111 @@
+@startuml
+class br.eti.kge.fastfood.FastfoodApplication {
+    void main()
+}
+class br.eti.kge.fastfood.domain.model.Cliente {
+    -long id
+    -String nome
+    -String endereco
+    -String cidade
+    -String uf
+    -String cep
+
+    + Contructors()
+    + Getter´s and Setter´s()
+    + int hashCode()
+    + boolean equals()
+
+}
+
+class br.eti.kge.fastfood.domain.model.Produto {
+    -long id
+    -String descricao
+    -Double qtd
+    -Double valorUnitario
+
+    + Contructors()
+    + Getter´s and Setter´s()
+    + Double getValorTotal()
+}
+
+
+class br.eti.kge.fastfood.api.controller.ClienteController {
+    +List<Cliente> showAllCliente()
+    +ResponseEntity<Cliente> showCliente(@PathVariable Long clienteId)
+    +Cliente addCliente(@RequestBody Cliente cliente)
+}
+
+class br.eti.kge.fastfood.api.controller.PedidoController{
+    +ResponseEntity<Pedido> showPedido(@PathVariable Long pedidoId)
+    +Pedido addPedido(@RequestBody Pedido pedido)
+}
+
+class br.eti.kge.fastfood.api.controller.ProdutoController{
+    +List<Produto> showAllProduto()
+}
+
+class br.eti.kge.fastfood.domain.model.Item {
+    -long id
+    -Double qtd
+    -Double valorUnitario
+    -String obs
+
+    + Contructors()
+    + Getter´s and Setter´s()
+    + int hashCode()
+    + boolean equals()
+
+}
+
+class br.eti.kge.fastfood.domain.model.Pedido {
+    -long id
+    -LocalDateTime abertoEm
+    -LocalDateTime fechadoEm
+    -StatusPedido status
+    -String obs
+    -List<Item> itens
+
+    + Contructors()
+    + Getter´s and Setter´s()
+    + int hashCode()
+    + boolean equals()
+
+}
+
+class br.eti.kge.fastfood.domain.service.PedidoService {
+}
+
+enum br.eti.kge.fastfood.domain.model.StatusPedido {
+    ABERTO
+    EM_PREPARACAO
+    FINALIZADO
+    ENTREGUE
+    CANCELADO
+}
+
+interface br.eti.kge.fastfood.domain.repository.ClienteRepository
+interface br.eti.kge.fastfood.domain.repository.PedidoRepository
+interface br.eti.kge.fastfood.domain.repository.ProdutoRepository
+
+br.eti.kge.fastfood.api.controller.ClienteController ..> br.eti.kge.fastfood.domain.model.Cliente
+br.eti.kge.fastfood.api.controller.ClienteController ..> br.eti.kge.fastfood.domain.repository.ClienteRepository
+br.eti.kge.fastfood.api.controller.PedidoController ..> br.eti.kge.fastfood.domain.model.Pedido
+br.eti.kge.fastfood.api.controller.PedidoController ..> br.eti.kge.fastfood.domain.service.PedidoService
+br.eti.kge.fastfood.api.controller.PedidoController ..> br.eti.kge.fastfood.domain.repository.PedidoRepository
+br.eti.kge.fastfood.api.controller.ProdutoController ..> br.eti.kge.fastfood.domain.model.Produto
+br.eti.kge.fastfood.api.controller.ProdutoController ..> br.eti.kge.fastfood.domain.repository.ProdutoRepository
+br.eti.kge.fastfood.domain.service.PedidoService ..> br.eti.kge.fastfood.domain.model.Pedido
+br.eti.kge.fastfood.domain.service.PedidoService ..> br.eti.kge.fastfood.domain.model.StatusPedido
+br.eti.kge.fastfood.domain.service.PedidoService ..> br.eti.kge.fastfood.domain.repository.ClienteRepository
+br.eti.kge.fastfood.domain.service.PedidoService ..> br.eti.kge.fastfood.domain.repository.PedidoRepository
+br.eti.kge.fastfood.domain.service.PedidoService ..> br.eti.kge.fastfood.domain.repository.ProdutoRepository
+br.eti.kge.fastfood.domain.repository.ClienteRepository ..> br.eti.kge.fastfood.domain.model.Cliente
+br.eti.kge.fastfood.domain.repository.PedidoRepository ..> br.eti.kge.fastfood.domain.model.Pedido
+br.eti.kge.fastfood.domain.repository.ProdutoRepository ..> br.eti.kge.fastfood.domain.model.Produto
+
+br.eti.kge.fastfood.domain.model.Item -- br.eti.kge.fastfood.domain.model.Produto
+br.eti.kge.fastfood.domain.model.Pedido --*  br.eti.kge.fastfood.domain.model.Item
+br.eti.kge.fastfood.domain.model.Pedido -- br.eti.kge.fastfood.domain.model.Cliente
+br.eti.kge.fastfood.domain.model.Pedido -- br.eti.kge.fastfood.domain.model.StatusPedido
+
+@enduml
